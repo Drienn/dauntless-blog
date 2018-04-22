@@ -16,7 +16,12 @@ h3 {
   border: solid black 1px;
 }
 
-.comment-title {}
+.thumnail {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  width: 100px;
+}
 
 .preview-btn {
   position: absolute;
@@ -25,16 +30,18 @@ h3 {
   border-radius: 5px 0px 5px 5px;
 }
 
-.comment-name {}
-
-.comment-body {}
-
-@media (max-width: 500px) {
+@media (max-width: 991px) {
   .preview-btn {
     position: relative;
     bottom: 0px;
     width: 100%;
     display: block;
     align-self: center;
+  }
+  .thumnail {
+    position: relative;
+    left: 0;
+    height: 129px;
+    width: 100px;
   }
 }

@@ -25,11 +25,18 @@ const Post = (props) => {
 
   return (
     <div className='post-container'>
-      <span>by: <Link to={`/author/${name}`}>{name}</Link></span>
+      <img className='thumnail' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzN-LJrUK-jquxYcFl_G60XFXtkjbmzfXq31rTU4N_n__B08mc'/>
       <h3>{titleTooLong ? `${reducedTitle}...` : title}</h3>
       <p>{bodyTooLong ? `${reducedBody}...` : body}</p>
+      <span>Posted by:{' '}
+        { name !== 'Anonymous' ?
+         <Link to={`/author/${name}`}>{name}</Link>
+         :
+         <a>{name}</a>
+      }
+      </span>
 
-      <span className='comment-title'> {comments.length} Comments</span>
+      <p className='comment-title'> {comments.length} Comments</p>
 
       <Link className='preview-btn btn btn-info' to={{
         pathname: `/post/${id}`,
