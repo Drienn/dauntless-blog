@@ -1,0 +1,40 @@
+h3 {
+  color: green;
+}
+
+.post-container {
+  width: 50%;
+  margin: 25px auto;
+  min-width: 350px;
+  border: solid black 1px;
+  position: relative;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+}
+
+.comments-container {
+  border: solid black 1px;
+}
+
+.comment-title {}
+
+.preview-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border-radius: 5px 0px 5px 5px;
+}
+
+.comment-name {}
+
+.comment-body {}
+
+@media (max-width: 500px) {
+  .preview-btn {
+    position: relative;
+    bottom: 0px;
+    width: 100%;
+    display: block;
+    align-self: center;
+  }
+}
