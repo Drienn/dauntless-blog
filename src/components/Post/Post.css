@@ -40,8 +40,6 @@ h3 {
   }
   .thumnail {
     position: relative;
-    left: 0;
     height: 129px;
-    width: 100px;
   }
 }
