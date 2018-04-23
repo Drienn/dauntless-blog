@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import heroImage from './hero-image.png'
 import './Preview.css'
 
@@ -16,14 +16,27 @@ class Preview extends Component {
         comments: false,
         commentTitle: '',
         commentBody: '',
-        showAddComment: false
+        showAddComment: false,
+        redirectCounter: 0
       }
   }
 
  initPreview(){
-  let { posts, authors, comments, match } = this.props
+  let { posts, authors, comments, match, history } = this.props
+  let { redirectCounter, post } = this.state
 
-  let [currentPost] = posts.filter(({id}) => id === +match.params.id)
+  let [currentPost] = posts.filter(({id}) => id === +match.params.id) || 'notFound'
+
+  if (currentPost === undefined && !post) this.setState({redirectCounter: redirectCounter + 1})
+
+  if (redirectCounter > 2 && currentPost === undefined) {
+    this.setState({redirectCounter: 0})
+    return history.push('/post/NotFound')
+  }
+
+  console.log('counter logger', currentPost, 'and', post)
+  console.log('counter', redirectCounter)
+
   let [currentAuthor] = currentPost ? authors.filter(({id}) => id === currentPost.userId) : []
 
   let currentComments = comments.filter(comment => comment.postId === +match.params.id)
@@ -44,17 +57,17 @@ class Preview extends Component {
   submitComment(e){
     e.preventDefault()
 
-    let { showAddComment, commentBody, post } = this.state
+    let { showAddComment, commentTitle, commentBody, post } = this.state
     if (commentBody === '') return alert(`Comment Can't Be Blank`)
     this.setState({showAddComment: !showAddComment, commentBody: ''})
 
-    this.props.CommentActions.addComment({body: commentBody, postId: post.id, email: 'Anonymous'})
+    this.props.CommentActions.addComment({name: commentTitle, body: commentBody, postId: post.id, email: 'Anonymous'})
   }
 
   renderComments = arr => arr.slice(0,5).map(({name, title, email, body}, i) => <div key={i} className='card'>
-    <p><span className='title'>Comment Name: </span> {name ? name : 'Anonymous'}</p>
-    <p><span className='title'>Comment Body: </span> {body}</p>
-    <p><span className='title'>Comment Email: </span> {email}</p>
+    <p className='comment-name'>{name ? name : ''}</p>
+    <p className='body'>{body}</p>
+    <p><span className='comment-email'>~</span> {email ? email : 'Anonymous'}</p>
     <hr/>
   </div>)
 
@@ -67,40 +80,37 @@ class Preview extends Component {
   }
 
   render() {
-    let { post, author, showAddComment, commentBody } = this.state
+    let { post, author, showAddComment, commentTitle, commentBody } = this.state
     let { title, body } = post && post.title ? post : 'loading...'
     let { name: authorName, website } = author && author.name ? author : 'loading...'
 
+    console.log('authorName', authorName)
     return (
       <div>
         <img className='hero-image' src={heroImage} alt="Card image"/>
         <p>
           <span className='title'>Author: </span>
-          { authorName !== 'Anonymous' ?
+          { authorName ?
            <Link to={`/author/${authorName}`}>{authorName}</Link>
            :
-           <a>Anonymous</a>
+           <span>Anonymous</span>
         }
          </p>
-        <p>
-          <span className='title'>Title:</span>
-           {title}
-         </p>
-        <p>
-          <span className='title'>Body:
-          </span>
-          {body}
-        </p>
+        <h3 className='title'>{title}</h3>
+
+        <div className='body'>
+          <span>{body}</span>
+        </div>
 
           <button className='add-comment btn btn-info'
              onClick={() => !showAddComment ? this.setState({showAddComment: !showAddComment}) : this.setState({showAddComment: !showAddComment, commentBody: ''})}>{ !showAddComment ? `Add Comment` : `Nevermind!`}
            </button>
              { showAddComment ? <div>
                {/* <form className='form-group form'> */}
-                 {/* <label className="col-sm-2 col-form-label">Title</label>
-                 <input className="form-control" placeholder="Add Title"
+                 {/* <label className="col-sm-2 col-form-label">Title</label> */}
+                 <input className="form-control add-comment-title" placeholder="Add Title (Optional)"
                    value={commentTitle}
-                   onChange={(e) => this.updateField(e, 'commentTitle')}/> */}
+                   onChange={(e) => this.updateField(e, 'commentTitle')}/>
 
                  {/* <label className="col-sm-2 col-form-label">Body</label> */}
                  <textarea className="form-control" placeholder="Add Content"
@@ -116,7 +126,7 @@ class Preview extends Component {
 
         <p>Comments:</p>
         <hr/>
-        {this.props.comments ? this.renderComments(this.props.comments.filter(({postId}) => postId === post.id)): <p>No Comments</p>}
+        {this.props.comments && post ? this.renderComments(this.props.comments.filter(({postId}) => postId === post.id)): <p>No Comments</p>}
       </div>
     )
   }

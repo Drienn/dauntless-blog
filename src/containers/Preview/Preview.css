@@ -15,3 +15,12 @@
   width: 100%;
   display: block;
 }
+
+.body {
+  text-align: left;
+  padding: 0px 10px 0px;
+}
+
+.comment-name {
+  font-weight: bold;
+}

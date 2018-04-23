@@ -1,0 +1,19 @@
+.author-container {
+  text-align: left;
+}
+
+.author-details {
+  border: solid black 2px;
+  width: 50%;
+  margin: 0px auto;
+  padding: 20px;
+}
+
+.bold {
+  font-weight: bold;
+  color: lightgrey;
+}
+
+.center {
+  text-align: center;
+}

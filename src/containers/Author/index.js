@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps'
+import './Author.css'
 
 /* global google */
 
@@ -48,18 +49,20 @@ class Author extends Component {
     let { name: companyName, catchPhrase, bs } = company ? company : 'loading'
 
     return (
-      <div>
-        <p>{name}'s Author Page!</p>
-        <p>UserName: {username}</p>
-        <p>Email: {email}</p>
-        <p>Website: {website}</p>
-        <p>Address: {street} {suite}, {city} {zipcode}</p>
-        <p>Company:</p>
-        <p>Name: {companyName}</p>
-        <p>Catch Phrase: {catchPhrase}</p>
-        <p>Bs: {bs}</p>
-        <p> lat: {lat}, lng: {lng} </p>
-
+      <div className='author-container'>
+        <h2 className='bold center'>{name}'s Author Page!</h2>
+        <div className='author-details'>
+          <p><span className='bold'>UserName:</span> {username}</p>
+          <p><span className='bold'>Email:</span> {email}</p>
+          <p><span className='bold'>Website:</span> {website}</p>
+          <p><span className='bold'>Address:</span> {street} {suite}, {city} {zipcode}</p>
+          <p><span className='bold'>Company:</span></p>
+          <p><span className='bold'>Name:</span> {companyName}</p>
+          <p><span className='bold'>Catch Phrase:</span> {catchPhrase}</p>
+          <p><span className='bold'>Bs:</span> {bs}</p>
+          <p><span className='bold'> lat:</span> {lat}</p>
+          <p><span className='bold'> lng:</span> {lng}</p>
+        </div>
         {
           lat && lng ?
           <MapWithAMarker

@@ -2,16 +2,6 @@ import React from 'react'
 import './Post.css'
 import { Link } from 'react-router-dom'
 
-// const renderComments = (comments) => {
-//   return comments.map((comment, i) =>
-//   <div key={i} className="comments-container">
-//     <div className="comment">
-//       <p className='comment-name'>Name: {comment.name}</p>
-//       <p className='comment-body'>{comment.body}</p>
-//     </div>
-//   </div>
-// )}
-
 const Post = (props) => {
   let { id, title, body, comments, history, author } = props
 
