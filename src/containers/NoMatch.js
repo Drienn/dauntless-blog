@@ -1,8 +1,10 @@
 import React from 'react'
 
-const NoMatch = (props) => {
+const NoMatch = ({ location: { pathname: path } }) => {
+  console.log('noMatch props', path)
+  let context = path === '/author/notFound' ? 'Author' : path === '/post/notFound' ? 'Post' : 'Page'
   return (
-    <div>Sorry, Couldn't Find The Page You Were Looking For</div>
+    <h2>Sorry, We Couldn't Find The {context} You Were Looking For.</h2>
   )
 }
 

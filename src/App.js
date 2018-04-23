@@ -43,10 +43,12 @@ class App extends Component {
           <Route exact path="/post/new" component={NewPost}/>
           <Route exact path="/post/notFound" component={NoMatch}/>
           <Route exact path="/post/:id" component={Preview}/>
+          <Route path="/author/notFound" component={NoMatch}/>
           <Route path="/author/:authorName" component={Author}/>
           <Route exact path="/" component={Home}/>
           <Route component={NoMatch}/>
         </Switch>
+
 
       </div>
     )

@@ -16,6 +16,7 @@ class Preview extends Component {
         comments: false,
         commentTitle: '',
         commentBody: '',
+        commentAuthor: '',
         showAddComment: false,
         redirectCounter: 0
       }
@@ -31,11 +32,8 @@ class Preview extends Component {
 
   if (redirectCounter > 2 && currentPost === undefined) {
     this.setState({redirectCounter: 0})
-    return history.push('/post/NotFound')
+    return history.push('/post/notFound')
   }
-
-  console.log('counter logger', currentPost, 'and', post)
-  console.log('counter', redirectCounter)
 
   let [currentAuthor] = currentPost ? authors.filter(({id}) => id === currentPost.userId) : []
 
@@ -51,17 +49,19 @@ class Preview extends Component {
   updateField({target: { value }}, field){
     field === 'commentTitle' ?
     this.setState({commentTitle: value}) :
-    this.setState({commentBody: value})
+    field === 'commentBody' ?
+    this.setState({commentBody: value}) :
+    this.setState({commentAuthor: value})
   }
 
   submitComment(e){
     e.preventDefault()
 
-    let { showAddComment, commentTitle, commentBody, post } = this.state
+    let { showAddComment, commentTitle, commentBody, commentAuthor, post } = this.state
     if (commentBody === '') return alert(`Comment Can't Be Blank`)
-    this.setState({showAddComment: !showAddComment, commentBody: ''})
+    this.setState({showAddComment: !showAddComment, commentTitle: '', commentBody: '', commentAuthor: ''})
 
-    this.props.CommentActions.addComment({name: commentTitle, body: commentBody, postId: post.id, email: 'Anonymous'})
+    this.props.CommentActions.addComment({name: commentTitle, body: commentBody, postId: post.id, email: commentAuthor ? commentAuthor : 'Anonymous'})
   }
 
   renderComments = arr => arr.slice(0,5).map(({name, title, email, body}, i) => <div key={i} className='card'>
@@ -80,7 +80,7 @@ class Preview extends Component {
   }
 
   render() {
-    let { post, author, showAddComment, commentTitle, commentBody } = this.state
+    let { post, author, showAddComment, commentTitle, commentBody, commentAuthor } = this.state
     let { title, body } = post && post.title ? post : 'loading...'
     let { name: authorName, website } = author && author.name ? author : 'loading...'
 
@@ -103,21 +103,25 @@ class Preview extends Component {
         </div>
 
           <button className='add-comment btn btn-info'
-             onClick={() => !showAddComment ? this.setState({showAddComment: !showAddComment}) : this.setState({showAddComment: !showAddComment, commentBody: ''})}>{ !showAddComment ? `Add Comment` : `Nevermind!`}
+             onClick={() => !showAddComment ? this.setState({showAddComment: !showAddComment}) : this.setState({showAddComment: !showAddComment, commentTitle: '', commentBody: '', commentAuthor: ''})}>{ !showAddComment ? `Add Comment` : `Nevermind!`}
            </button>
              { showAddComment ? <div>
                {/* <form className='form-group form'> */}
                  {/* <label className="col-sm-2 col-form-label">Title</label> */}
-                 <input className="form-control add-comment-title" placeholder="Add Title (Optional)"
+                 <input className="form-control" placeholder="Add Title (Optional)"
                    value={commentTitle}
                    onChange={(e) => this.updateField(e, 'commentTitle')}/>
 
                  {/* <label className="col-sm-2 col-form-label">Body</label> */}
-                 <textarea className="form-control" placeholder="Add Content"
+                 <textarea className="form-control add-comment-body" placeholder="Add Content"
                    value={commentBody}
                    onChange={(e) => this.updateField(e, 'commentBody')}/>
 
-                   <button onClick={(e) => this.submitComment(e)}className='submit-comment btn btn-primary'>Add Comment</button>
+                   <input className="form-control add-comment-title" placeholder="Add Name (Optional)"
+                     value={commentAuthor}
+                     onChange={(e) => this.updateField(e, 'commentAuthor')}/>
+
+                   <button onClick={(e) => this.submitComment(e)}className='submit-comment btn btn-outline-success'>Add Comment</button>
                {/* </form> */}
                </div>
                :

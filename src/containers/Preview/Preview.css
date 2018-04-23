@@ -1,3 +1,15 @@
+input:hover {
+  box-shadow: 0 0 5px seagreen;
+  margin: -1px;
+  border: 2px solid seagreen;
+}
+
+textarea:hover {
+  box-shadow: 0 0 5px seagreen;
+  margin: -1px;
+  border: 2px solid seagreen;
+}
+
 .title {
   font-weight: bold;
 }
@@ -6,8 +18,16 @@
   margin: 20px 0px;
 }
 
+.add-comment-body:hover {
+  margin: 9px -1px;
+}
+
+.add-comment-body {
+  margin: 10px 0px;
+}
+
 .submit-comment {
-  margin-bottom: 20px
+  margin: 10px 0px 20px;
 }
 
 .hero-image {
@@ -17,7 +37,6 @@
 }
 
 .body {
-  text-align: left;
   padding: 0px 10px 0px;
 }
 

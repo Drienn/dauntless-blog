@@ -31,7 +31,7 @@ class Author extends Component {
   findCurrentAuthor = (authors) => {
     let [currentAuthor] = authors ? authors.filter(({name}) => name === this.props.match.params.authorName) : []
 
-    this.setState({currentAuthor})
+    this.setState({currentAuthor}, () => currentAuthor === undefined ? this.props.history.push('/author/notFound') : console.log('Found Author!'))
   }
 
   componentWillReceiveProps(nextProps){
