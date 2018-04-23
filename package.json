@@ -2,8 +2,10 @@
   "name": "dauntless-blog",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://drienn.github.io/dauntless-blog/",
   "dependencies": {
     "axios": "^0.18.0",
+    "gh-pages": "^1.1.0",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-google-maps": "^9.4.5",
@@ -16,6 +18,8 @@
     "redux-promise-middleware": "^5.1.1"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
