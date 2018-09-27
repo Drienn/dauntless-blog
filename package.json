@@ -15,7 +15,8 @@
     "react-scripts": "1.1.4",
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
-    "redux-promise-middleware": "^5.1.1"
+    "redux-promise-middleware": "^5.1.1",
+    "with-redux-hoc": "^1.0.5"
   },
   "scripts": {
     "predeploy": "npm run build",
